@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWear Product Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container-fluid {
+            padding: 25px;
+        }
+        
+        .card {
+            border: 1px solid #505050;
+            border-radius: 10px;
+            box-shadow: none;
+            margin-bottom: 15px;
+            height: 100%;
+        }
+        
+        .card-header {
+            background-color: #06923E;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #ffffff;
+            padding: 20px;
+        }
+        
+        .card-body {
+            padding: 15px 15px;
+        }
+        
+        .product-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .product-info-label {
+            color: #666;
+            font-weight: 500;
+            flex: 1;
+        }
+        
+        .product-info-value {
+            color: #333;
+            font-weight: 600;
+            flex: 1;
+            text-align: right;
+        }
+        
+        .env-impact-card {
+            background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            text-align: center;
+            padding: 25px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .env-impact-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+            line-height: 1;
+        }
+        
+        .env-impact-label {
+            color: #666;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .manufacturing-section {
+            /* background-color: #4a6741; */
+            color: white;
+            padding: 35px;
+            border-radius: 10px;
+            height: 100%;
+        }
+        
+        .tshirt-display {
+            text-align: center;
+            padding: 0px;
+        }
+        
+        .tshirt-main {
+            width: auto;
+            height: auto;
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4f1d4 100%);
+            border-radius: 20px;
+            margin: 0 auto 20px auto;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tshirt-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        
+        .tshirt-small {
+            width: 70px;
+            height: 70px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 8px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .process-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .process-list li {
+            margin: 18px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .process-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #151515;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .process-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #151515;
+        }
+        
+        .process-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        /* .lifecycle-chart {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            height: 100%;
+        } */
+        
+        .lifecycle-metrics {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        
+        .lifecycle-metric {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+            margin: 10px 5px;
+        }
+        
+        .lifecycle-number {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #333;
+            line-height: 1.2;
+        }
+        
+        .lifecycle-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        
+        .lifecycle-sublabel {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        .chart-placeholder {
+            height: 180px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+        
+        .chart-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .recycle-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .recycle-icon {
+            width: 45px;
+            height: 45px;
+            background: #06923E;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+        
+        .recycle-content h6 {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .recycle-content p {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .map-container {
+            height: 350px;
+            background: linear-gradient(45deg, #90c695 0%, #a8d4ad 50%, #c2e2c5 100%);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .map-info {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .map-info small {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        .qr-section {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .qr-code {
+            width: 140px;
+            height: 140px;
+            background: #000;
+            margin: 0 auto 20px auto;
+            position: relative;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .qr-pattern {
+            position: absolute;
+            background: #000;
+        }
+        
+        /* .qr-corner-1 { width: 20px; height: 20px; top: 15px; left: 15px; background: white; }
+        .qr-corner-2 { width: 20px; height: 20px; top: 15px; right: 15px; background: white; }
+        .qr-corner-3 { width: 20px; height: 20px; bottom: 15px; left: 15px; background: white; }
+        .qr-line-1 { width: 50px; height: 10px; top: 45px; left: 45px; background: white; }
+        .qr-line-2 { width: 10px; height: 30px; top: 60px; left: 30px; background: white; }
+        .qr-line-3 { width: 30px; height: 10px; top: 75px; right: 35px; background: white; } */
+        
+        .qr-description {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .row {
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding: 15px;
+            }
+            
+            .env-impact-card {
+                margin-bottom: 20px;
+            }
+            
+            .tshirt-main {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .lifecycle-metrics {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .lifecycle-metric {
+                margin: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- First Row -->
+        <div class="row">
+            <!-- Product Identification -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">Product Identification</div>
+                    <div class="card-body">
+                        <div class="product-info-row">
+                            <div class="product-info-label">Product Name</div>
+                            <div class="product-info-value">EcoWear Recycled T-Shirt</div>
+                        </div>
+                        <div class="product-info-row">
+                            <div class="product-info-label">Product Code</div>
+                            <div class="product-info-value">EW-RT-2024</div>
+                        </div>
+                        <div class="product-info-row">
+                            <div class="product-info-label">Batch Number</div>
+                            <div class="product-info-value">B2024-07-15</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environmental Impact -->
+            <div class="col-lg-8 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">Environmental Impact</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="env-impact-card">
+                                    <div class="env-impact-label">Carbon Emissions Saved</div>
+                                    <div class="env-impact-number">25%</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="env-impact-card">
+                                    <div class="env-impact-label">Water Conservation</div>
+                                    <div class="env-impact-number">30%</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="env-impact-card">
+                                    <div class="env-impact-label">Plastic Bottles Diverted</div>
+                                    <div class="env-impact-number">500+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row -->
+        <div class="row">
+            <!-- Material Composition -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">Material Composition</div>
+                    <div class="card-body">
+                        <div class="product-info-row">
+                            <div class="product-info-label">Recycled PET</div>
+                            <div class="product-info-value">85%</div>
+                        </div>
+                        <div class="product-info-row">
+                            <div class="product-info-label">Cotton</div>
+                            <div class="product-info-value">10%</div>
+                        </div>
+                        <div class="product-info-row">
+                            <div class="product-info-label">Polyester</div>
+                            <div class="product-info-value">3%</div>
+                        </div>
+                        <div class="product-info-row">
+                            <div class="product-info-label">Elastane</div>
+                            <div class="product-info-value">2%</div>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturing Processes -->
+            <div class="col-lg-8 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">Manufacturing Processes</div>
+                    <div class="card-body p-0">
+                        <div class="manufacturing-section">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="tshirt-display p-0">
+                                        <div class="tshirt-main">
+                                            <img src="shirt new.png" alt="EcoWear T-Shirt">
+                                            <!-- https://static.vecteezy.com/system/resources/thumbnails/049/024/613/small_2x/free-new-a-white-t-shirt-on-a-wooden-flat-lay-mockup-features-background-photo.jpg -->
+                                        </div>
+                                  
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="process-list">
+                                        <li>
+                                            <div class="process-title">Yarn Production</div>
+                                            <div class="process-desc">Recycled PET bottles transformed into yarn</div>
+                                        </li>
+                                        <li>
+                                            <div class="process-title">Fabric Knitting</div>
+                                            <div class="process-desc">Yarn knitted into fabric</div>
+                                        </li>
+                                        <li>
+                                            <div class="process-title">Dyeing and Finishing</div>
+                                            <div class="process-desc">Fabric dyed and finished for desired properties</div>
+                                        </li>
+                                        <li>
+                                            <div class="process-title">Garment Assembly</div>
+                                            <div class="process-desc">T-shirts cut and sewn</div>
+                                        </li>
+                                        <li>
+                                            <div class="process-title">Quality Control</div>
+                                            <div class="process-desc">Final inspection to ensure quality</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third Row -->
+        <div class="row">
+            <!-- Lifecycle Analysis -->
+            <div class="col-lg-5 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">Lifecycle Analysis</div>
+                    <div class="card-body">
+                        <div class="lifecycle-chart p-0">
+                            <!-- Sustainability Insights -->
+                            <div class="sustainability-insights mb-3">
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span><strong>Water Saved</strong></span>
+                                    <span>1200 Liters</span>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span><strong>Plastic Bottles Reused</strong></span>
+                                    <span>500+</span>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span><strong>Recycling Rate</strong></span>
+                                    <span>85%</span>
+                                </div>
+                                <div class="d-flex justify-content-between py-2">
+                                    <span><strong>Durability</strong></span>
+                                    <span>3 Years Avg.</span>
+                                </div>
+                            </div>
+                            <!-- Chart -->
+                            <div class="chart-placeholder">
+                                <img src="graph.png" alt="Lifecycle Analysis Chart" width="100%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- How to Recycle -->
+            <div class="col-lg-7 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">How to Recycle</div>
+                    <div class="card-body">
+                        <p class="mb-4">Follow these steps to properly recycle your EcoWear t-shirt and minimize environmental impact:</p>
+                        
+                        <div class="recycle-step">
+                            <div class="recycle-icon">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div class="recycle-content">
+                                <h6>Prepare the Garment</h6>
+                                <p>Ensure the t-shirt is clean and dry. Remove any non-fabric components like buttons or zippers if possible.</p>
+                            </div>
+                        </div>
+
+                        <div class="recycle-step">
+                            <div class="recycle-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="recycle-content">
+                                <h6>Locate Recycling Facilities</h6>
+                                <p>Use online search engines or local directories to find recycling facilities that accept textile waste in your area.</p>
+                            </div>
+                        </div>
+
+                        <div class="recycle-step">
+                            <div class="recycle-icon">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                            <div class="recycle-content">
+                                <h6>Understand Recycling Symbols</h6>
+                                <p>Familiarize yourself with recycling symbols to ensure proper sorting and disposal. Look for symbols indicating textile recycling or specific material types.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fourth Row -->
+        <div class="row">
+            <!-- Material Traceability -->
+            <div class="col-lg-9 col-md-8 mb-4">
+                <div class="card">
+                    <div class="card-header">Material Traceability</div>
+                    <div class="card-body">
+                        <div class="map-container">
+                            <img src="map.png" alt="Material Traceability Map">
+                            <div class="map-info">
+                                <small><strong>Production Locations:</strong><br>
+                                 Park Core - Manufacturing<br>
+                                 Deepa's Art Studio - Design</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Code -->
+            <!-- <div class="col-lg-3 col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">QR CODE</div>
+                    <div class="card-body">
+                        <div class="qr-section">
+                            <div>
+                                <img src="qrdemo.png" alt="">
+                            </div>
+                           
+                            <p class="qr-description">Scan for detailed product information</p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
